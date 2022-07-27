@@ -1,28 +1,58 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header
+      :genres="selectedGenres"
+      :authors="selectedAuthors"
+      @newGenre="updateGenre"
+      @newAuthor="updateAuthor"
+      :watchGenre="activeGenre"
+      :watchAuthor="activeAuthor"
+    />
+    <DiscContainer
+      @discData="setData"
+      :updatedGenre="activeGenre"
+      :updatedAuthor="activeAuthor"
+    />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BaseHeader from "./components/BaseHeader";
+import DiscContainer from "./components/DiscContainer";
+import Disc from "./components/Disc";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    BaseHeader,
+    DiscContainer,
+  },
+  data() {
+    return {
+      selectedGenres: [],
+      selectedAuthors: [],
+      activeGenre: "",
+      activeAuthor: ""
+    };
+  },
+  methods: {
+    setData: function (arrayGenres, arrayAuthors) {
+      this.selectedGenres = arrayGenres;
+      this.selectedAuthors = arrayAuthors;
+    },
+    updateGenre: function (genre) {
+      this.activeGenre = genre;
+      this.activeAuthor = "";
+    },
+    updateAuthor: function (author) {
+      this.activeAuthor = author;
+      this.activeGenre = "";
+
+    }
+  },
+};
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "./scss/general";
 </style>
